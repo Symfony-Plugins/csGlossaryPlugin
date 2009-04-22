@@ -1,0 +1,11 @@
+all:
+  glossary:
+    alphabet: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    default:  []  
+
+#Add this to your app.yml with the models you want your glossary to use under default:
+# all:
+#   glossary:
+#     default:
+      # - Service
+      # - Treatment

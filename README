@@ -1,0 +1,73 @@
+csGlossaryPlugin
+================
+
+Allows you to easily create a Glossary or Directory out of a single model or an aggregate of multiple models.  
+Models are organized alphabetically, and the alphabet is customizable.  
+
+#Configuration
+
+Add this to your app.yml with the models you want your glossary to use under default:
+
+	[yml]
+	all:
+		glossary:
+		default:
+			- MyModel1
+			- MyModel2
+	
+By Default, the csGallery class looks for a title field on the object.  If you wish for this to be different,
+alter your app.yml as follows:
+	
+	[yml]
+	all:
+		glossary:
+			default:
+				MyModel1:  title
+				MyModel2:	name
+	
+In this scenario, MyModel1 will be glossarized according to the title field, and MyModel2 will be glossarized 
+according to name.  Both models are automatically alphabetized together.  If you have multiple glossaries in 
+your project, simply declare a new glossary under default:
+
+	[yml]
+	all:
+		glossary:
+	  	default:
+	    	MyModel1:  title
+	    	MyModel2:	name
+			terms_glossary:
+				- Term
+
+Now your Term glossary can be called easily.  Read about 'Usage' below to manipulate your Glossary object
+
+
+#Usage
+
+First you must create your glossary object:
+	
+	[php]
+	$glossary = new Glossary();
+
+This will create a glossary with the default configurations you have specified.  In order to use additional
+configurations, simply pass the configuration name to the constructor:
+
+	[php]
+	$glossary = new Glossary('terms_glossary'); 	//This will apply the configuration shown in the example above
+
+You now have your glossary object to manipulate.
+
+#METHODS
+
+* **getActiveAlphabet()**
+	This function returns an array with all the letters that have results
+
+* **getForLetter(** *$letter* **)**
+	This function returns an array of objects in alphabetical order that match the given letter
+	
+* **getGlossaryCollection()**
+	This function returns a full alphabetical array with all results included and alphabetized
+	
+* **getAlphabet()**
+	This function returns the current alphabet in array form
+
+Please contact bshaffer@centresource.com with any comments or questions
