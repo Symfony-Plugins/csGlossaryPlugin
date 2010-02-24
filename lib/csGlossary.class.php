@@ -26,6 +26,7 @@ class csGlossary
 	{
 		return str_split($this->alphabet);
 	}
+	
 	public function getGlossaryCollection()
 	{
 		foreach ($this->tables as $table) 
@@ -35,6 +36,7 @@ class csGlossary
 		
 		return $this->glossary;
 	}
+	
 	public function getForLetter($letter)
 	{
 		$letter = strtoupper($letter);
@@ -44,6 +46,7 @@ class csGlossary
 		}
 		return $this->glossary[$letter];
 	}
+	
 	public function getActiveAlphabet()
 	{
 		$letters = $this->initGlossary();
@@ -60,14 +63,15 @@ class csGlossary
 	// =====================
 	// = Private Functions =
 	// =====================
-	private function addCollectionToGlossary($collection)
+	protected function addCollectionToGlossary($collection)
 	{
 		foreach ($collection as $object) 
 		{
 			$this->addObjectToGlossary($object);
 		}
 	}
-	private function addObjectToGlossary($object)
+	
+	protected function addObjectToGlossary($object)
 	{
 		$value = $this->getObjectValue($object);
 		$letter = strtoupper($value[0]);
@@ -89,7 +93,7 @@ class csGlossary
 		$this->glossary[$letter][] = $object;
 	}
 
-	private function getGlossaryQuery($table, $field, $letter = null)
+	public function getGlossaryQuery($table, $field, $letter = null)
 	{
 		$q = Doctrine::getTable($table)
 						->createQuery()
@@ -102,7 +106,8 @@ class csGlossary
 		
 		return $q;
 	}
-	private function getLettersQuery($table, $field)
+	
+	public function getLettersQuery($table, $field)
 	{
 		$q = Doctrine::getTable($table)
 						->createQuery()
@@ -111,12 +116,14 @@ class csGlossary
 
 		return $q;
 	}
-	private function getObjectValue($object)
+	
+	protected function getObjectValue($object)
 	{
 		$field = $this->fields[get_class($object)];
 		return $object->$field;
 	}
-	private function processConfig($glossary)
+	
+	protected function processConfig($glossary)
 	{
 		foreach(sfConfig::get('app_glossary_'.$glossary) as $key => $value)
 		{
@@ -132,7 +139,8 @@ class csGlossary
 			}
 		}
 	}
-	private function initGlossary()
+	
+	protected function initGlossary()
 	{
 		$glossary = array();
 		foreach ($this->getAlphabet() as $letter) 
@@ -141,11 +149,13 @@ class csGlossary
 		}
 		return $glossary;
 	}
-	private function hasMultipleTables()
+	
+	protected function hasMultipleTables()
 	{
 		return (count($this->tables) > 1);
 	}
-	private function insertArrayIndex($array, $new_element, $index) 
+	
+	protected function insertArrayIndex($array, $new_element, $index) 
 	{
 		$start = array_slice($array, 0, $index); 
 		$end = array_slice($array, $index);
